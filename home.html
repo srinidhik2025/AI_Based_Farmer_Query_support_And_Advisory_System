@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to AgriAssist TN</h1>
+    <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; color: var(--text-muted);">
+        Your intelligent farming companion. We help farmers in Tamil Nadu with crop diseases, weather advice, market prices, and government schemes in both Tamil and English.
+    </p>
+</div>
+
+<div class="grid">
+    <a href="{% url 'assistant' %}" class="card">
+        <h2>💬 Ask the AI / கேளுங்கள்</h2>
+        <p>Ask farming questions in Tamil or English. Get simple, practical advice immediately.</p>
+    </a>
+    
+    <a href="{% url 'tools' %}" class="card">
+        <h2>🔬 Crop & Disease Tools</h2>
+        <p>Upload a photo of your crop to identify diseases, or get recommendations based on your soil and local weather.</p>
+    </a>
+    
+    <a href="{% url 'info' %}" class="card">
+        <h2>📉 Market & Schemes</h2>
+        <p>Check the current crop prices in your local mandi and read guides on applying for government subsidies.</p>
+    </a>
+</div>
+{% endblock %}

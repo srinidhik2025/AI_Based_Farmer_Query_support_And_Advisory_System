@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Market & Schemes - AgriAssist TN{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Market Prices & Schemes / சந்தை & திட்டங்கள்</h1>
+    <p>Stay informed to maximize your agricultural income.</p>
+</div>
+
+<div class="grid">
+    <div class="tool-section" style="margin-bottom: 0;">
+        <h2 style="color: var(--primary-green); margin-bottom: 1rem;">📊 Current Market Prices</h2>
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <tr style="border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 1rem 0;">Crop (பயிர்)</th>
+                <th style="padding: 1rem 0;">Price / Quintal</th>
+                <th style="padding: 1rem 0;">Trend</th>
+            </tr>
+            {% for price in prices %}
+            <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 1rem 0;">{{ price.crop_name_en }} ({{ price.crop_name_ta }})</td>
+                <td style="padding: 1rem 0;">₹{{ price.price_per_quintal }}</td>
+                <td style="padding: 1rem 0; color: {% if price.is_up %}green{% else %}red{% endif %};">
+                    {{ price.trend }}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3" style="padding: 1rem 0; text-align: center;">No market prices available.</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+    <div class="tool-section" style="margin-bottom: 0;">
+        <h2 style="color: var(--primary-green); margin-bottom: 1rem;">🏛️ Government Schemes</h2>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
+            {% for scheme in schemes %}
+            <li style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                <strong>{{ scheme.name }}</strong><br>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">
+                    {{ scheme.description }}
+                    {% if scheme.link_url %}
+                    <div style="margin-top: 1rem;">
+                        <a href="{{ scheme.link_url }}" target="_blank" style="display: inline-block; padding: 0.6rem 1.2rem; background: var(--primary-green); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 0.85rem;">
+                            {{ scheme.link_text|default:"Apply Now / இப்பொழுதே விண்ணப்பிக்கவும்" }} →
+                        </a>
+                    </div>
+                    {% endif %}
+                </span>
+            </li>
+            {% empty %}
+            <li style="text-align: center;">No schemes listed currently.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AgriAssist TN{% endblock %}</title>
+    <meta name="description" content="Intelligent agricultural assistant designed to help farmers in Tamil Nadu.">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{% url 'home' %}">🌱 AgriAssist TN</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home / முகப்பு</a></li>
+            <li><a href="{% url 'assistant' %}">Ask AI / கேளுங்கள்</a></li>
+            <li><a href="{% url 'tools' %}">Farm Tools / கருவிகள்</a></li>
+            <li><a href="{% url 'info' %}">Market / சந்தை</a></li>
+            <li><button class="lang-toggle">English / தமிழ்</button></li>
+        </ul>
+    </nav>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p><strong>For more help, contact your nearest Krishi Vigyan Kendra (KVK).</strong></p>
+        <p style="font-size: 0.9rem; margin-top: 5px; color: #aaa;">மேலதிக உதவிக்கு, உங்கள் அருகிலுள்ள வேளாண் அறிவியல் மையத்தை (KVK) அணுகவும்.</p>
+    </footer>
+</body>
+</html>

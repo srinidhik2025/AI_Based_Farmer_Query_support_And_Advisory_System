@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Farm Tools - AgriAssist TN{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Farm Diagnostic Tools / விவசாய கண்டறியும் கருவிகள்</h1>
+    <p>Data-driven insights for soil, weather, and crops.</p>
+</div>
+
+<!-- Disease ID -->
+<div class="tool-section">
+    <h2 style="color: var(--primary-green); margin-bottom: 1rem;">📷 Identify Crop Disease</h2>
+    <p style="margin-bottom: 1.5rem;">Upload a picture of the affected leaf or crop (e.g. 'cotton_leaf.jpg'), and our models will diagnose the issue.</p>
+    
+    <form method="POST" enctype="multipart/form-data" style="border: 2px dashed var(--primary-green); border-radius: 10px; padding: 3rem; text-align: center; background: var(--light-green);">
+        {% csrf_token %}
+        <span style="font-size: 3rem;">📸</span><br><br>
+        <input type="file" name="upload" required accept="image/*" style="margin-bottom: 1rem;"><br>
+        <button type="submit" style="padding: 0.8rem 2rem; background: var(--primary-green); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Upload Image</button>
+    </form>
+    
+    {% if upload_msg %}
+    <div style="margin-top: 1.5rem; padding: 1rem; background: #e3f2fd; border-left: 4px solid #1976d2; border-radius: 5px;">
+        {{ upload_msg|safe }}
+    </div>
+    {% endif %}
+</div>
+
+<!-- Yield Predictor -->
+<div class="tool-section">
+    <h2 style="color: var(--primary-green); margin-bottom: 1rem;">📊 Crop Yield Predictor</h2>
+    <p style="margin-bottom: 1rem;">Enter your precision soil data to calculate expected yields.</p>
+    
+    <form method="POST" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        {% csrf_token %}
+        <input type="number" name="n" placeholder="Nitrogen (N)" required style="padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; flex: 1;">
+        <input type="number" name="p" placeholder="Phosphorus (P)" required style="padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; flex: 1;">
+        <input type="number" name="k" placeholder="Potassium (K)" required style="padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; flex: 1;">
+        <input type="number" name="ph" step="0.1" placeholder="Soil pH" required style="padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; flex: 1;">
+        <button type="submit" name="predict_yield" style="padding: 0.8rem 2rem; background: var(--accent-orange); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Predict Yield</button>
+    </form>
+    
+    {% if yield_prediction %}
+    <div style="margin-top: 1.5rem; padding: 1rem; background: #fff3e0; border-left: 4px solid var(--accent-orange); border-radius: 5px;">
+        <strong>{{ yield_prediction }}</strong>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Crop Recommender -->
+<div class="tool-section">
+    <h2 style="color: var(--primary-green); margin-bottom: 1rem;">🌱 Crop Recommender</h2>
+    <p style="margin-bottom: 1rem;">Select your location and month to see the best crops to plant based on current weather data.</p>
+    
+    <form method="POST" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        {% csrf_token %}
+        <select name="location" style="padding: 0.8rem; font-size: 1rem; border: 1px solid var(--border-color); border-radius: 5px; flex: 1;">
+            <option value="Coimbatore">Coimbatore</option>
+            <option value="Madurai">Madurai</option>
+            <option value="Tiruchirappalli">Tiruchirappalli</option>
+        </select>
+        <select name="month" style="padding: 0.8rem; font-size: 1rem; border: 1px solid var(--border-color); border-radius: 5px; flex: 1;">
+            <option value="June">June (Kharif Season)</option>
+            <option value="October">October (Rabi Season)</option>
+        </select>
+        <button type="submit" name="recommend" style="padding: 0.8rem 2rem; background: var(--primary-green); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Get Recommendation</button>
+    </form>
+    
+    {% if recommendation %}
+    <div style="margin-top: 1.5rem; padding: 1rem; background: var(--light-green); border-left: 4px solid var(--primary-green); border-radius: 5px;">
+        {{ recommendation }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

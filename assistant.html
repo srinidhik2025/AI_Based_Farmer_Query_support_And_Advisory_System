@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Ask AI - AgriAssist TN{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Intelligent Farm Assistant / உழவர் உதவியாளர்</h1>
+    <p>Always respond in the same language you use! / நீங்கள் பயன்படுத்தும் மொழியிலேயே நான் பதிலளிப்பேன்.</p>
+</div>
+
+<div class="chat-container">
+    <div class="chat-header" style="display: flex; justify-content: space-between;">
+        <strong>AgriAssist TN Live Chat</strong>
+        <form method="POST" style="margin: 0; display: inline;">
+            {% csrf_token %}
+            <button type="submit" name="reset" style="background: transparent; color: white; border: 1px solid white; border-radius: 5px; cursor: pointer; padding: 2px 10px;">Clear</button>
+        </form>
+    </div>
+    
+    <div class="chat-messages">
+        {% if not chat_history %}
+            <p style="text-align: center; color: var(--text-muted); margin-top: 2rem;">No messages yet. Ask me a question about your crops, like "My tomato leaves are turning yellow"!</p>
+        {% endif %}
+        
+        {% for chat in chat_history %}
+            {% if chat.sender == 'farmer' %}
+                <div class="msg msg-farmer">
+                    🧔 <strong>Farmer:</strong> {{ chat.text }}
+                </div>
+            {% else %}
+                <div class="msg msg-ai">
+                    {{ chat.text|safe }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+    <form class="chat-input" method="POST">
+        {% csrf_token %}
+        <input type="text" name="message" required placeholder="Type your farming question here... / உங்கள் கேள்வியை இங்கே தட்டச்சு செய்யவும்...">
+        <button type="submit">Send</button>
+    </form>
+</div>
+{% endblock %}
